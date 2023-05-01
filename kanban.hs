@@ -34,12 +34,14 @@ ler arquivo = do
 
 cadastrarUsuario::IO ()
 cadastrarUsuario = do
-    putStr "Nome: "
-    name <- getLine
-    putStr "Função: "
-    func <- getLine
-    let usuario = Usuario {nome = name, funcao = func}
-    escrever "usuarios.txt" usuario
+  putStrLn "Nome:"
+  nome <- getLine
+  putStrLn "Função:"
+  funcao <- getLine
+  let usuario = Usuario {nome = nome, funcao = funcao}
+      usuarioStr = show usuario ++ "\n"
+  appendFile "usuarios.txt" usuarioStr
+  putStrLn "Usuário cadastrado com sucesso!"
 
 cadastrarAtividade :: IO()
 cadastrarAtividade = do
