@@ -1,15 +1,15 @@
 import Data.Char ()
 import Data.Set ()
-import qualified Data.Text.IO as TIO
+-- import qualified Data.Text.IO as TIO
 import Data.Time
 import System.Directory ()
 import System.IO ()
 
--- import System.Random
+--import System.Random
 
 data Usuario = Usuario {idUsuario :: Int, nome :: String, funcao :: String} deriving (Show, Read)
 
-data Atividade = Atividade {idAtividade :: Int, nomeAtividade :: String, usuario :: Int, status :: String, urgencia :: String, dificuldade :: String, entrega :: String} deriving (Show, Read)
+data Atividade = Atividade {idAtividade :: Int, nomeAtividade :: String, usuario :: String, status :: String, urgencia :: String, dificuldade :: String, entrega :: String} deriving (Show, Read)
 
 main :: IO ()
 main = do
@@ -22,50 +22,80 @@ main = do
   putStrLn "4. Editar uma atividade"
   putStrLn "5. Alterar status de uma atividade"
   opcao <- getLine
-  case opcao of "1" -> cadastrarUsuario
-  case opcao of "2" -> cadastrarAtividade
 
--- case opcao of "3" -> exibirQuadro
--- case opcao of "4" -> editarAtividade
--- case opcao of "5" -> alterarStatus
+  if (verificaEntrada opcao)
+    then
+      if (opcao == "1")
+        then cadastrarUsuario
+        else
+          if (opcao == "2")
+            then cadastrarAtividade
+            else -- else if (opcao == "3") then exibirQuadro
+            -- else if (opcao == "4") then -> editarAtividade
+            -- else if (opcao == "5") then -> alterarStatus
+              putStrLn ""
+    else do
+      putStrLn "Opção inválida."
+      putStrLn "Digite uma das opções apresentadas:"
+      main
 
-escreverUsuario :: Usuario -> IO ()
-escreverUsuario usuario = do
-  meu_arquivo <- openFile "usuarios.txt" WriteMode
-  let user = show usuario
-  hPutStr meu_arquivo user
-  hFlush meu_arquivo
+verificaEntrada :: String -> Bool
+verificaEntrada "0" = True
+verificaEntrada "1" = True
+verificaEntrada "2" = True
+verificaEntrada "3" = True
+verificaEntrada "4" = True
+verificaEntrada "5" = True
+verificaEntrada _ = False
 
-escreverAtividade :: Atividade -> IO ()
-escreverAtividade atividade = do
-  meu_arquivo <- openFile "atividades.txt" WriteMode
-  let atv = show atividade
-  hPutStr meu_arquivo atv
-  hFlush meu_arquivo
+verificaStatus :: String -> Bool
+verificaStatus "A fazer" = True
+verificaStatus "Em andamento" = True
+verificaStatus "Concluido" = True
+verificaStatus _ = False
 
-toStringAtividade :: Atividade -> String
-toStringAtividade atividade = show atividade
+verificaId :: Int -> Bool
+verificaId userId = length (show userId) <= 6
 
-exibir :: IO ()
-exibir = do
-  meu_arquivo <- openFile "atividades.txt" ReadMode
-  conteudo <- hGetContents meu_arquivo
-  print conteudo
+-- escreverUsuario :: Usuario -> IO ()
+-- escreverUsuario usuario = do
+--  meu_arquivo <- openFile "usuarios.txt" WriteMode
+--  let user = show usuario
+--  hPutStr meu_arquivo user
+--  hFlush meu_arquivo
+
+-- escreverAtividade :: Atividade -> IO ()
+-- escreverAtividade atividade = do
+--  meu_arquivo <- openFile "atividades.txt" WriteMode
+-- let atv = show atividade
+--  hPutStr meu_arquivo atv
+--  hFlush meu_arquivo
+
+-- exibir :: IO ()
+-- exibir = do
+--  meu_arquivo <- openFile "atividades.txt" ReadMode
+--  conteudo <- hGetContents meu_arquivo
+--  print conteudo
 
 cadastrarUsuario :: IO ()
 cadastrarUsuario = do
-  putStrLn "Nome:"
+  putStr "Nome:"
   nome <- getLine
-  putStrLn "Função:"
+  putStr "Função:"
   funcao <- getLine
-  userid <- newStdGen
-  -- let (idUsuario, _) = randomR (1, 1000000) gen :: (Int, StdGen)
-  let usuario = Usuario {idUsuario = idUsuario, nome = nome, funcao = funcao}
-      usuarioStr = show usuario ++ "\n"
+  putStr "Digite um id de até 6 números: "
+  userId <- getLine
+  let iduser = read userId :: Int
+  if (verificaId iduser == False) then do
+    putStrLn "ID Inválido, por favor tente outro número."
+    cadastrarUsuario
+  else do
+    let usuario = Usuario {idUsuario = iduser, nome = nome, funcao = funcao}
+        usuarioStr = show usuario ++ "\n"
   -- verifica a existencia de um usuario com o mesmo ID criar uma função genérica para isso
-  appendFile "usuarios.txt" usuarioStr
-  putStrLn "Seu id de usuário é: " ++ idUsuario
-  putStrLn "Usuário cadastrado com sucesso!"
+    appendFile "usuarios.txt" usuarioStr
+  -- putStrLn "Seu id de usuário é: " ++ idUsuario
+    putStrLn "Usuário cadastrado com sucesso!"
 
 -- gerarId :: IO ()
 
@@ -74,42 +104,42 @@ cadastrarAtividade = do
   putStrLn "Tarefa:"
   putStr "Insira o nome: "
   tarefa <- getLine
-  putStrLn "Usuário: "
+  putStr "Usuário: "
   usuarioResp <- getLine
   putStrLn "Status:"
   putStrLn "Status possíveis: A fazer | Em andamento | Concluído"
-  putStrLn "Adicione um desses status a sua atividade: "
+  putStr "Adicione um desses status a sua atividade: "
   status <- getLine
-  putStrLn "Grau de urgência: "
-
-  putStrLn "Você precisa de ajuda com o grau de urgência? S/N"
-  auxilio <- getLine
-  -- funcaoAuxilio
-  putStrLn "Dificuldade: "
-  putStrLn "Fácil | Médio | Difícil"
-  putStrLn "Adicione um desses níveis de dificuldade a sua atividade: "
-  dificuldade <- getLine
-  putStr "Data de entrega: "
-  entrega <- getLine
-  let atividade = Atividade {nomeAtividade = tarefa, usuario = usuarioResp, status = status, urgencia = "", dificuldade = dificuldade, entrega = entrega}
-      atividadeStr = show atividade ++ "\n"
-  appendFile "atividades.txt" atividadeStr
-  putStrLn "Atividade cadastrada com sucesso!"
+  if (verificaStatus status == False) then do
+      putStrLn "Entrada inválida, por favor escolha uma das opções solicitadas."
+      cadastrarAtividade
+    else do
+      putStrLn "Grau de urgência: "
+      putStr "Você precisa de ajuda com o grau de urgência? S/N"
+      urgencia <- getLine
+      --if (urgencia == "S") then exibeAuxilio
+      putStrLn "Dificuldade: "
+      putStrLn "Fácil | Médio | Difícil"
+      putStr "Adicione um desses níveis de dificuldade a sua atividade: "
+      dificuldade <- getLine
+      putStr "Data de entrega: "
+      entrega <- getLine
+      let atividade = Atividade {nomeAtividade = tarefa, usuario = usuarioResp, status = status, dificuldade = dificuldade, entrega = entrega}
+          atividadeStr = show atividade ++ "\n"
+      appendFile "atividades.txt" atividadeStr
+      putStrLn "Atividade cadastrada com sucesso!"
 
 -- funcaoAuxilio ::IO ()
--- funcaoAuxilio = do
--- if auxilio == "S" then exibeAuxilio
--- else if auxilio == "N" then atividade = Atividade {urgencia = ""}
--- else putStr "Opção inválida."
+-- funcaoAuxilio =
 
 -- exibeAuxilio :: IO ()
 -- exibeAuxilio = do
--- putStrLn "Urgente e importante: Grau 1"
--- putStrLn "Importante e não urgente: Grau 2"
--- putStrLn "Não importante e urgente: Grau 3"
--- putStrLn "Não urgente e não importante: Grau 4"
--- urgencia <- getLine
--- atividade = Atividade {urgencia = urgencia}
+--  putStrLn "Urgente e importante: Grau 1"
+--  putStrLn "Importante e não urgente: Grau 2"
+--  putStrLn "Não importante e urgente: Grau 3"
+--  putStrLn "Não urgente e não importante: Grau 4"
+--  urgencia <- getLine
+--  atividade = Atividade {urgencia = urgencia}
 -- cadastrarAtividade <- cadastrarAtividade.auxilio -- aqui deve voltar para a recepção do cadastro de atividade
 
 -- exibirQuadro :: IO ()
