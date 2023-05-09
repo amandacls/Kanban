@@ -23,24 +23,19 @@ main = do
   putStrLn "5. Alterar status de uma atividade"
   opcao <- getLine
 
-  if (verificaEntrada opcao)
-    then
-      if (opcao == "1")
-        then cadastrarUsuario
-        else
-          if (opcao == "2")
-            then cadastrarAtividade
-            else -- else if (opcao == "3") then exibirQuadro
+  if (verificaEntrada opcao) then
+      if (opcao == "1") then cadastrarUsuario
+      else if (opcao == "2") then cadastrarAtividade
+      else -- else if (opcao == "3") then exibirQuadro
             -- else if (opcao == "4") then -> editarAtividade
             -- else if (opcao == "5") then -> alterarStatus
-              putStrLn ""
+        putStrLn ""
     else do
       putStrLn "Opção inválida."
       putStrLn "Digite uma das opções apresentadas:"
       main
 
 verificaEntrada :: String -> Bool
-verificaEntrada "0" = True
 verificaEntrada "1" = True
 verificaEntrada "2" = True
 verificaEntrada "3" = True
@@ -79,9 +74,9 @@ verificaId userId = length (show userId) <= 6
 
 cadastrarUsuario :: IO ()
 cadastrarUsuario = do
-  putStr "Nome:"
+  putStr "Nome: "
   nome <- getLine
-  putStr "Função:"
+  putStr "Função: "
   funcao <- getLine
   putStr "Digite um id de até 6 números: "
   userId <- getLine
