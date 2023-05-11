@@ -10,7 +10,7 @@ import qualified Utils as Utils
 
 editarAtividade :: Int -> Maybe String -> Maybe String -> Maybe String -> Maybe String -> IO ()
 editarAtividade idAtividade novoNome mNovaDificuldade mNovaUrgencia mNovaEntrega = do
-    withFile "atividades.txt" ReadWriteMode $ \handle -> do
+    withFile "dados/atividades.txt" ReadWriteMode $ \handle -> do
         arquivo <- hGetContents handle
         let atividades = read arquivo :: [Atividade.Atividade]
 
@@ -29,7 +29,7 @@ editarAtividade idAtividade novoNome mNovaDificuldade mNovaUrgencia mNovaEntrega
 
 editarStatus :: Int -> Maybe String -> IO ()
 editarStatus idAtividade mNovoStatus = do
-    withFile "atividades.txt" ReadWriteMode $ \handle -> do
+    withFile "dados/atividades.txt" ReadWriteMode $ \handle -> do
         arquivo <- hGetContents handle
         let atividades = read arquivo :: [Atividade.Atividade]
 

@@ -35,7 +35,7 @@ main = do
   putStrLn "Digite uma das opções apresentadas:"
   main
 
-usuario :: IO()
+usuario :: IO ()
 usuario = do
   putStr "Nome: "
   nome <- getLine
@@ -43,13 +43,20 @@ usuario = do
   funcao <- getLine
   putStr "Digite um id de até 6 números: "
   userId <- getLine
-  let idUser = read userId :: Int
-  usuarios <- Utils.exibirUser
-  if Utils.verificaId idUser usuarios then do
-    Utils.escreverUsuario (Usuario.cadastraUsuario idUser nome funcao)
+  usuarios <- Usuario.lerUsuarios "dados/usuarios.txt"
+  if (Usuario.verificaIdExistente (read userId) usuarios == False) then do
+    let usuario = Usuario.Usuario {Usuario.idUsuario = read userId, Usuario.nome = nome, Usuario.funcao = funcao}
+    let novosUsuarios = Usuario.adicionarUsuario usuario usuarios
+    Usuario.escreverUsuarios "dados/usuarios.txt" novosUsuarios
     putStrLn "Usuário cadastrado com sucesso!"
+    putStrLn ""
+  else if (length (show (read userId :: Int)) > 6) then do
+    putStrLn "O id deve ter no máximo 6 dígitos."
+    putStrLn ""
+    usuario
   else do
-    putStrLn "ID já cadastrado. Por favor, tente outro número."
+    putStrLn "O id já existe na base de dados."
+    putStrLn ""
     usuario
 
 
@@ -101,6 +108,7 @@ atividade = do
         entrega <- getLine
         Utils.escreverAtividade(Atividade.cadastrarAtividade (read(idAtv)) tarefa usuarioResp status opcao dificuldade entrega)
         putStrLn "Atividade cadastrada com sucesso!"
+        putStrLn ""
       else if urgencia == "N" then do
       putStrLn "Dificuldade: "
       putStrLn "Fácil | Médio | Difícil"
@@ -110,8 +118,10 @@ atividade = do
       entrega <- getLine
       Utils.escreverAtividade(Atividade.cadastrarAtividade (read(idAtv)) tarefa usuarioResp status urgencia dificuldade entrega)
       putStrLn "Atividade cadastrada com sucesso!"
+      putStrLn ""
     else do
       putStrLn "Opção inválida, por favor escolha S ou N."
+      putStrLn ""
       atividade
 
 editarAtv :: IO ()
