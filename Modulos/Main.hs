@@ -130,36 +130,6 @@ editarAtv = do
   putStr "Nova data de entrega: "
   novoEntrega <- getLine
   EditarAtividades.editarAtividade (read idAtividade) (Just novoNome) (Just novoDif) (Just novoUrg) (Just novoEntrega)
-  --case resposta of
-    --"nome" -> do
-    --  putStrLn "Digite o novo nome para a atividade:"
-    --  novoNome <- getLine
-    --  EditarAtividades.editarAtividade (read idAtividade) (Just novoNome)
-    --  putStrLn "Nome da atividade atualizado com sucesso!"
-    --"dificuldade" -> do
-    --  putStrLn "Digite a nova dificuldade para a atividade:"
-    --  novaDif <- getLine
-    --  EditarAtividades.editarAtividade (read idAtividade) Just (novaDif)
-    --  putStrLn "Status da atividade atualizado com sucesso!"
-    --"urgencia" -> do
-    --  putStrLn "Digite a nova urgencia para a atividade:"
-    --  novaUrg <- getLine
-    --  EditarAtividades.editarAtividade (read idAtividade) (Just novaUrg)
-    --"entrega" -> do
-    --  putStrLn "Digite a nova data de entrega para a atividade:"
-    --  novaEntrega <- getLine
-    --  EditarAtividades.editarAtividade (read idAtividade) (Just novaEntrega)
-    --"tudo" -> do
-    --  putStrLn "OBS: O que não quiser mudar, digite com estava."
-    --  putStrLn "Digite as alterações:"
-    --  novoNome <- getLine
-    --  novoDif <- getLine
-    --  novoUrg <- getLine
-    --  novoEntrega <- getLine
-    --  EditarAtividades.editarAtividade (read idAtividade) (Just novoNome) (Just novoDif) (Just novoUrg) (Just novoEntrega)
-    --_ -> do
-    --  putStrLn "Opção inválida. Tente novamente."
-    --  editarAtv
 
 status :: IO()
 status = do
