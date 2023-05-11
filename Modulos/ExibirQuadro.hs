@@ -2,17 +2,6 @@ module ExibirQuadro where
 
 import qualified Atividade as Atividade
 
--- exibirQuadro :: IO ()
--- exibirQuadro = do
--- putStrLn "data"
--- putStrLn "A fazer"
--- readFile atividades.txt -> Atividade {status = "A fazer"}
--- putStrLn "Em andamento"
--- readFile atividades.txt -> Atividade {status = "Em andamento"}
--- putStrLn "Concluída"
--- readFile atividades.txt -> Atividade {status = "A fazer"}
--- putStrLn "Atrasada"
-
 import System.IO
 
 exibirQuadro :: IO ()

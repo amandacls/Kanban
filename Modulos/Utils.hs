@@ -4,16 +4,10 @@ import Data.Time (parseTimeM, defaultTimeLocale)
 import Data.Map as Map (fromList, Map)
 import Data.List
 import System.IO.Unsafe (unsafePerformIO)
---import System.IO.Unsafe (unsafeDupablePerformIO)
---import Data.List.Split (splitOn)
---import Data.Typeable
---import Data.Time.Calendar
---import qualified System.IO.Strict as Strict
 
 import qualified Atividade as Atividade
 import qualified Usuario as Usuario
---import qualified ExibirQuadro as ExibirQuadro
---import qualified EditarAtividades as EditarAtividades
+
 
 exibirUser :: IO ([Usuario.Usuario])
 exibirUser = do
@@ -32,35 +26,12 @@ constroiUser [strIdUser, nomeUser, funcao] =
                           , Usuario.funcao = funcao}
 constroiUser _ = error "Lista deve ter três elementos"
 
---escreverUsuario :: Usuario.Usuario -> IO ()
---escreverUsuario usuario = do
---  meu_arquivo <- openFile "usuarios.txt" WriteMode
---  let user = show usuario
---  hPutStr meu_arquivo user
---  hFlush meu_arquivo
-
---escreverAtividade :: Atividade.Atividade -> IO ()
---escreverAtividade atividade = do
---  meu_arquivo <- openFile "atividades.txt" WriteMode
---  let atv = show atividade
---  hPutStr meu_arquivo atv
---  hFlush meu_arquivo
-
 exibir :: IO ([Atividade.Atividade])
 exibir = do
   meu_arquivo <- readFile "atividades.txt"
   let lista = ((Data.List.map words (lines meu_arquivo)))
   let lista_atividade = (Data.List.map constroiAtividade lista)
   return lista_atividade
-
---constroiAtividade:: [String] -> Atividade.Atividade
---constroiAtividade lista = 
---  Atividade.Atividade {Atividade.idAtividade = lista !! 0
---  , Atividade.nomeAtividade = lista !! 1
---  , Atividade.status = lista !! 2
---  , Atividade.urgencia = lista !! 3
---  , Atividade.dificuldade = lista !! 4
---  , Atividade.entrega = lista !! 5}
 
 constroiAtividade :: [String] -> Atividade.Atividade
 constroiAtividade [strIdAtividade, nomeAtividade, status, strUrgencia, strDificuldade, strEntrega] =
@@ -77,16 +48,6 @@ constroiAtividade [strIdAtividade, nomeAtividade, status, strUrgencia, strDificu
                           }
 constroiAtividade _ = error "Lista deve ter seis elementos"
 
-
-
---escreverUsuario::[Usuario.Usuario] -> IO()
---escrever [] = return ()
---escrever (h:t) = do
---  let userStr = Usuario.nome h ++ ", " ++ Usuario.funcao ++ ", " ++ show (Usuario.idUsuario)
---  appendFile "Dados/usuarios.txt" userStr
---  escreverUsuario t
---  return ()
-
 escreverUsuario :: Usuario.Usuario -> IO()
 escreverUsuario user = do
   let userStr = "ID: " ++ show(Usuario.idUsuario user) ++ ", NOME: " ++ (Usuario.nome user) ++ ", FUNÇÃO: " ++ (Usuario.funcao user) ++ "\n"
@@ -99,10 +60,6 @@ escreverAtividade atividade = do
   appendFile "atividades.txt" atvStr
   return ()
 
---verificaId :: Int -> Bool
---verificaId userId = not $ any (\usuario -> Usuario.idUsuario usuario == userId) usuarios
---  where
---    usuarios = unsafePerformIO exibirUser
 
 verificaId :: Int -> [Usuario.Usuario] -> Bool
 verificaId userId usuarios = not $ any (\usuario -> Usuario.idUsuario usuario == userId) usuarios

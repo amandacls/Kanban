@@ -52,13 +52,6 @@ usuario = do
     putStrLn "ID já cadastrado. Por favor, tente outro número."
     usuario
 
-  --usuarios <- Utils.exibirUser
-  --if (Utils.verificaId (read userId :: Int) usuarios) then do
-  --  Utils.escreverUsuario(Usuario.cadastraUsuario (read(userId)) nome funcao)
-  --  putStrLn "Usuário cadastrado com sucesso!"
-  --else do
-  --  putStrLn "ID Inválido, por favor tente outro número."
-  --  usuario
 
 
 atividade :: IO()

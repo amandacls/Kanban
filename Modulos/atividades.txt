@@ -1,5 +1,0 @@
-56, teste, 1, A fazer, 4, Difícil, 10/10/2020
-3, teste2, 90, A fazer, N, Fácil, 20/20/2020
-ID ATIVIDADE: 12, NOME: teste, ID USER: 1, STATUS: Em andamento, URGENCIA: 4, DIFICULDADE: Fácil, DATA: 10/10/2021
-ID ATIVIDADE: 12, NOME: teste, ID USER: teste, STATUS: A fazer, URGENCIA: N, DIFICULDADE: Fácil, DATA: 10/10/2010
-ID ATIVIDADE: 6542, NOME: teste, ID USER: 12, STATUS: A fazer, URGENCIA: 3, DIFICULDADE: Médio, DATA: 10/10/21
