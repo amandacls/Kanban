@@ -3,6 +3,7 @@ module Utils where
 import Data.Time (parseTimeM, defaultTimeLocale)
 import Data.Map as Map (fromList, Map)
 import Data.List
+import System.IO.Unsafe (unsafePerformIO)
 --import System.IO.Unsafe (unsafeDupablePerformIO)
 --import Data.List.Split (splitOn)
 --import Data.Typeable
@@ -14,10 +15,22 @@ import qualified Usuario as Usuario
 --import qualified ExibirQuadro as ExibirQuadro
 --import qualified EditarAtividades as EditarAtividades
 
-lerArquivoUsuarios :: IO([Usuario.Usuario])
-lerArquivoUsuarios = do
-  conteudo <- readFile "usuarios.txt"
-  return $ map read (lines conteudo)
+exibirUser :: IO ([Usuario.Usuario])
+exibirUser = do
+  meu_arquivo <- readFile "usuarios.txt"
+  let lista = ((Data.List.map words (lines meu_arquivo)))
+  let lista_user = (Data.List.map constroiUser lista)
+  return lista_user
+
+constroiUser :: [String] -> Usuario.Usuario
+constroiUser [strIdUser, nomeUser, funcao] =
+  let idUser = read strIdUser
+      nome = nomeUser
+      funcao = funcao
+   in Usuario.Usuario { Usuario.idUsuario = idUser
+                          , Usuario.nome = nomeUser
+                          , Usuario.funcao = funcao}
+constroiUser _ = error "Lista deve ter três elementos"
 
 --escreverUsuario :: Usuario.Usuario -> IO ()
 --escreverUsuario usuario = do
@@ -35,7 +48,7 @@ lerArquivoUsuarios = do
 
 exibir :: IO ([Atividade.Atividade])
 exibir = do
-  meu_arquivo <- readFile "Dados/atividades.txt"
+  meu_arquivo <- readFile "atividades.txt"
   let lista = ((Data.List.map words (lines meu_arquivo)))
   let lista_atividade = (Data.List.map constroiAtividade lista)
   return lista_atividade
@@ -76,20 +89,23 @@ constroiAtividade _ = error "Lista deve ter seis elementos"
 
 escreverUsuario :: Usuario.Usuario -> IO()
 escreverUsuario user = do
-  let userStr = Usuario.nome user++ ", " ++ Usuario.funcao user++ ", " ++ show (Usuario.idUsuario user)
-  appendFile "Dados/usuarios.txt" userStr
+  let userStr = "ID: " ++ show(Usuario.idUsuario user) ++ ", NOME: " ++ (Usuario.nome user) ++ ", FUNÇÃO: " ++ (Usuario.funcao user) ++ "\n"
+  appendFile "usuarios.txt" userStr
   return ()
 
 escreverAtividade :: Atividade.Atividade -> IO()
 escreverAtividade atividade = do
-  let atvStr = show(Atividade.idAtividade atividade) ++ ", " ++ Atividade.nomeAtividade atividade ++ ", " ++ Atividade.usuario atividade ++ ", " ++ Atividade.status atividade ++ ", " ++ Atividade.urgencia atividade++ ", " ++ Atividade.dificuldade atividade++ ", " ++ Atividade.entrega atividade
-  appendFile "Dados/atividades.txt" atvStr
+  let atvStr = "ID ATIVIDADE: " ++ show(Atividade.idAtividade atividade) ++ ", NOME: " ++ Atividade.nomeAtividade atividade ++ ", ID USER: " ++ Atividade.usuario atividade ++ ", STATUS: " ++ Atividade.status atividade ++ ", URGENCIA: " ++ Atividade.urgencia atividade++ ", DIFICULDADE: " ++ Atividade.dificuldade atividade++ ", DATA: " ++ Atividade.entrega atividade ++ "\n"
+  appendFile "atividades.txt" atvStr
   return ()
 
-verificaId :: Int -> IO Bool
-verificaId userId = do
-  usuarios <- lerArquivoUsuarios
-  return $ not $ any (\usuario -> Usuario.idUsuario usuario == userId) usuarios
+--verificaId :: Int -> Bool
+--verificaId userId = not $ any (\usuario -> Usuario.idUsuario usuario == userId) usuarios
+--  where
+--    usuarios = unsafePerformIO exibirUser
+
+verificaId :: Int -> [Usuario.Usuario] -> Bool
+verificaId userId usuarios = not $ any (\usuario -> Usuario.idUsuario usuario == userId) usuarios
 
 verificaStatus :: String -> Bool
 verificaStatus "A fazer" = True

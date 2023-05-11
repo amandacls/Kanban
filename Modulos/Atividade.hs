@@ -77,7 +77,7 @@ exibeAuxilio = do
   putStrLn "4 - Não urgente e não importante"
   putStrLn "Opção: "
   opcao <- getLine
-  if (verificaOpcao opcao == False) then do
+  if (Atividade.verificaOpcao opcao == False) then do
       putStrLn "Entrada inválida, por favor escolha uma das opções solicitadas."
       exibeAuxilio
   else do
