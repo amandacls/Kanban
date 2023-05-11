@@ -6,27 +6,28 @@ import System.IO
 
 exibirQuadro :: IO ()
 exibirQuadro = do
-  putStrLn "Quadro de Atividades"
-  putStrLn ""
-  putStrLn "A fazer: "
+  putStrLn "+----------------+----------------+----------------+----------------+"
+  putStrLn "|                        Quadro de Atividades                       |"
+  putStrLn "+----------------+----------------+----------------+----------------+"
+  putStrLn "| A fazer: "
   withFile "atividades.txt" ReadMode (\handle -> do
     contents <- hGetContents handle
     let linhas = lines contents
         atividadesAFazer = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "A fazer") linhas
     mapM_ putStrLn atividadesAFazer)
-  putStrLn "Em andamento: "
+  putStrLn "| Em andamento: "
   withFile "atividades.txt" ReadMode (\handle -> do
     contents <- hGetContents handle
     let linhas = lines contents
         atividadesEmAndamento = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "Em andamento") linhas
     mapM_ putStrLn atividadesEmAndamento)
-  putStrLn "Concluídas: "
+  putStrLn "| Concluídas: "
   withFile "atividades.txt" ReadMode (\handle -> do
     contents <- hGetContents handle
     let linhas = lines contents
         atividadesConcluidas = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "Concluído") linhas
     mapM_ putStrLn atividadesConcluidas)
-  putStrLn "Atrasadas: "
+  putStrLn "| Atrasadas: "
   withFile "atividades.txt" ReadMode (\handle -> do
     contents <- hGetContents handle
     let linhas = lines contents
