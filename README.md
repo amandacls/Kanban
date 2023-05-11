@@ -6,24 +6,24 @@ O programa será escrito em Haskell para a disciplina de Paradigmas de Linguagen
 
 ### 🔧 Funcionalidades
 
-Cadastrar usuário
-Cadastrar atividade
-Exibir quadro
-Editar atividade
-Editar status
+1. Cadastrar usuário
+2. Cadastrar atividade
+3. Exibir quadro
+4. Editar atividade
+5. Editar status
 
 
 ### 📋 Pré-requisitos
 
 Você precisa ter a linguagem Haskell, o compilador ghc e o interpretador ghci em seu computador.
 
-### 🔧 Instalação
+## 🔧 Instalação
 
-Abra o terminal de sua preferência;
-Faça o git clone do [repositório](https://github.com/amandacls/Kanban/);
-Acesse a pasta onde o repositório foi clonado com o comando ‘cd Kanban’;
-Em seguida acesse a pasta de módulos com o comando ‘cd Modulos’
-Digite ghci Main.hs e inicialize a sua experiência 😉;
+1. Abra o terminal de sua preferência;
+2. Faça o git clone do [repositório](https://github.com/amandacls/Kanban/);
+3. Acesse a pasta onde o repositório foi clonado com o comando ‘cd Kanban’;
+4. Em seguida acesse a pasta de módulos com o comando ‘cd Modulos’
+5. Digite ghci Main.hs e inicialize a sua experiência 😉;
 
 ## 🛠️ Construído com
 
