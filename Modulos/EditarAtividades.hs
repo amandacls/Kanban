@@ -11,15 +11,32 @@ import qualified Utils as Utils
 -- else if resposta == ""
 -- depende do arquivo de atividades
 
--- alterarStatus :: String -> Atividade -> Atividade
--- alterarStatus novoStatus atividade = atividade {status = novoStatus}
+--alterarStatus :: String -> Atividade -> Atividade
+--alterarStatus novoStatus atividade = atividade {status = novoStatus}
 
--- aterarNomeAtividade :: String -> Atividade -> Atividade
--- alterarNomeAtividade novoNome atividade = atividade {nomeAtividade = novoNome}
+alterarNomeAtividade :: String -> Atividade.Atividade -> Atividade.Atividade
+alterarNomeAtividade novoNome atividade = atividade {Atividade.nomeAtividade = novoNome}
+
 
 -- putStrLn "Altere o status de uma atividade!"
 -- putStrLn "Insira o identificador da atividade: "
 -- novoStatus <- getLine
+
+alterarDificuldade :: String -> Atividade.Atividade -> Atividade.Atividade
+alterarDificuldade novaDif atividade = atividade {Atividade.dificuldade = novaDif}
+
+buscarAtividade :: Int -> [Atividade.Atividade] -> Maybe Atividade.Atividade
+buscarAtividade idAtv atividades =
+  let atividadeEncontrada = filter (\atividade -> Atividade.idAtividade atividade == idAtv) atividades
+  in case atividadeEncontrada of
+    [atividade] -> Just atividade
+    _ -> Nothing 
+
+--verificaIdAtv :: Int -> IO Bool
+--verificaIdAtv atvId = do
+--  atividades <- Utils.exibir
+--  return $ not $ any (\atividade -> Atividade.idAtividade atividade == atvId) atividades
+
 
 editarAtividade :: IO ()
 editarAtividade = do
@@ -27,20 +44,18 @@ editarAtividade = do
   idAtividade <- getLine
   putStrLn "O que você deseja alterar?"
   resposta <- getLine
-  atividades <- Utils.exibir "atividades.txt"
+  atividades <- Utils.exibir
   let atividade = buscarAtividade (read idAtividade) atividades
   case resposta of
     "nome" -> do
       putStrLn "Digite o novo nome para a atividade:"
       novoNome <- getLine
-      let atividadeAtualizada = alterarNomeAtividade novoNome atividade
-      atualizarAtividade atividadeAtualizada atividades
+      alterarNomeAtividade novoNome atividade
       putStrLn "Nome da atividade atualizado com sucesso!"
-    "status" -> do
-      putStrLn "Digite o novo status para a atividade:"
-      novoStatus <- getLine
-      let atividadeAtualizada = alterarStatus novoStatus atividade
-      atualizarAtividade atividadeAtualizada atividades
+    "dificuldade" -> do
+      putStrLn "Digite a nova dificuldade para a atividade:"
+      novaDif <- getLine
+      alterarDificuldade novaDif atividade
       putStrLn "Status da atividade atualizado com sucesso!"
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
