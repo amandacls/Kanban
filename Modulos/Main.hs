@@ -129,7 +129,7 @@ editarAtv = do
   putStrLn "Qual é o identificador da atividade que você deseja editar?"
   idAtividade <- getLine
   putStrLn "O que você deseja alterar?"
-  putStrLn "OBS: O que não quiser mudar, digite com estava."
+  putStrLn "OBS: O que não quiser mudar, digite como estava."
   putStrLn "Digite as alterações:"
   putStr "Novo nome: "
   novoNome <- getLine
