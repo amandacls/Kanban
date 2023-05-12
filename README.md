@@ -23,7 +23,8 @@ Você precisa ter a linguagem Haskell, o compilador ghc e o interpretador ghci e
 2. Faça o git clone do [repositório](https://github.com/amandacls/Kanban/);
 3. Acesse a pasta onde o repositório foi clonado com o comando ‘cd Kanban’;
 4. Em seguida acesse a pasta de módulos com o comando ‘cd Modulos’
-5. Digite ghci Main.hs e inicialize a sua experiência 😉;
+5. Digite 'ghci Main.hs';
+6. Digite 'main' inicialize a sua experiência 😉;
 
 ## 🛠️ Construído com
 
