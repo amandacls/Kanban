@@ -2,7 +2,7 @@
 
 O quadro Kanban é uma ferramenta de gerenciamento de projeto ágil que auxilia na visualização de trabalho, limitação de trabalho em andamento e maximização de eficiência. Pensando nisso, a implementação proposta para o caso de estudo visa também a adição de outras funcionalidades importantes para auxiliar tal fluxo. Todos os dados obtidos nas funcionalidades do programa serão persistidos.
 
-O programa será escrito em Haskell e em Prolog para a disciplina de Paradigmas de Linguagens de Programação da Universidade Federal de Campina Grande, semestre 2022.2. Seu uso se dará por meio do terminal e seu principal objetivo é utilizar o paradigma funcional visto em sala de aula.
+O programa será escrito em Haskell e em Prolog para a disciplina de Paradigmas de Linguagens de Programação da Universidade Federal de Campina Grande, semestre 2022.2. Seu uso se dará por meio do terminal e seu principal objetivo é utilizar os paradigmas funcional e lógico vistos em sala de aula.
 
 ### 🔧 Funcionalidades
 
