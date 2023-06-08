@@ -20,7 +20,7 @@ exibirQuadro:-
     let linhas = lines contents
         atividadesConcluidas = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "Concluído") linhas
     mapM_ putStrLn atividadesConcluidas) */
-  write('| Atrasadas: '),
+  write('| Atrasadas: ').
   /* withFile "dados/atividades.txt" ReadMode (\handle -> do
     contents <- hGetContents handle
     let linhas = lines contents
