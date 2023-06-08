@@ -51,53 +51,51 @@ atividade :-
     writeln('Status:'),
     writeln('Status possiveis: A fazer | Em andamento | Concluído'),
     write('Adicione um desses status a sua atividade: '),
-    ler_string(Status),
+    ler_numero(Status),
     (\+ verifica_status(Status) -> writeln('Entrada inválida, por favor escolha uma das opções solicitadas.')
-   ; write('Grau de urgência: '), 
+    ; write('Grau de urgência: '), 
       write('Você precisa de ajuda com o grau de urgência? S/N '), 
-      read(Urgencia),
-      (Urgencia =:= S -> 
-      writeln('Matriz de Eisenhower:'),
-      writeln('+----------------+----------------+'),
-      writeln('| Urgente e      | Importante e   |'),
-      writeln('| importante     | não urgente    |'),
-      writeln('+----------------+----------------+'),
-      writeln('| Não urgente e  | Não importante |'),
-      writeln('| importante     | e urgente      |'),
-      writeln('+----------------+----------------+'),
-      writeLn('Escolha o grau de urgência:'),
-      writeLn('1 - Urgente e importante'),
-      writeLn('2 - Importante e não urgente'),
-      writeLn('3 - Não importante e urgente'),
-      writeLn('4 - Não urgente e não importante'),
-      writeLn('Opção: '),
-      ler_string(Opcao)),
+      ler_string(Urgencia),
+      (Urgencia = 'S' -> 
+        writeln('Matriz de Eisenhower:'),
+        writeln('+----------------+----------------+'),
+        writeln('| Urgente e      | Importante e   |'),
+        writeln('| importante     | não urgente    |'),
+        writeln('+----------------+----------------+'),
+        writeln('| Não urgente e  | Não importante |'),
+        writeln('| importante     | e urgente      |'),
+        writeln('+----------------+----------------+'),
+        writeLn('Escolha o grau de urgência:'),
+        writeLn('1 - Urgente e importante'),
+        writeLn('2 - Importante e não urgente'),
+        writeLn('3 - Não importante e urgente'),
+        writeLn('4 - Não urgente e não importante'),
+        writeLn('Opção: '),
+        ler_string(Opcao)),
 
-      % Verificar opcao
+        % Verificar opcao
 
-      writeln('Dificuldade: '),
+        writeln('Dificuldade: '),
         writeln('Fácil | Médio | Difícil'),
-        writeln('Adicione um desses níveis de dificuldade a sua atividade: '),
-        read(Dificuldade),
+        write('Adicione um desses níveis de dificuldade a sua atividade: '),
+        ler_string(Dificuldade),
 
         % Verificar dificuldade
 
-        writeln('Data de entrega: '),
-        read(Data),
+        write('Data de entrega: '),
+        ler_string(Data),
         cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Urgencia, Dificuldade, Data),
         writeln('Atividade cadastrada com sucesso! \n');
-      (Urgencia =:= N -> 
+      (Urgencia = 'N'-> 
         writeln('Dificuldade: '),
         writeln('Fácil | Médio | Difícil'),
-        writeln('Adicione um desses níveis de dificuldade a sua atividade: '),
-        read(Dificuldade),
-        writeln('Data de entrega: '),
-        read(Data),
+        write('Adicione um desses níveis de dificuldade a sua atividade: '),
+        ler_string(Dificuldade),
+        write('Data de entrega: '),
+        ler_string(Data),
         cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Urgencia, Dificuldade, Data),
-        writeln('Atividade cadastrada com sucesso! \n')
-      );
-      (Urgencia =:= _ -> writeln('Opção inválida, por favor, escolha S ou N. \n'));
-      ),
+        writeln('Atividade cadastrada com sucesso! \n'));
+      (Urgencia = _ -> writeln('Opção inválida, por favor, escolha S ou N. \n'))),
     main.
 
   % implementar o resto das funcoes

@@ -13,7 +13,7 @@ verifica_opcao(3) :- true, !.
 verifica_opcao(4) :- true, !.
 verifica_opcao(_) :- false, !.
 
-verifica_status(A fazer):- true, !.
-verifica_status(Em andamento):- true, !.
-verifica_status(Concluido):- true, !.
-verifica_status(_):- false, !.
+verifica_status(1) :- true.
+verifica_status(2) :- true.
+verifica_status(3) :- true.
+verifica_status(_) :- false.
