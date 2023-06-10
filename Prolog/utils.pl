@@ -18,7 +18,6 @@ verifica_status(2) :- true.
 verifica_status(3) :- true.
 verifica_status(_) :- false.
 
-
 exibe_matriz :-
     writeln('Matriz de Eisenhower:'),
     writeln('+----------------+----------------+'),
@@ -38,5 +37,5 @@ exibe_matriz :-
 exibir_status :-
     writeln('Status:'),
     writeln('Status possiveis: A fazer | Em andamento | Concluído'),
-    write('Adicione um desses status a sua atividade: ').
+    writeln('Adicione um desses status a sua atividade: ').
     %ler_numero(Status).

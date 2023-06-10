@@ -86,25 +86,29 @@ atividade :-
   % matriz Eisenhower
   
 
-/*
+
 editar_atividade :-
-    write('Qual é o identificador da atividade que você deseja editar?'),
+    writeln('Qual é o identificador da atividade que você deseja editar?'),
     ler_string(IdAtividade),
-    write('O que você deseja alterar?'),
-    write('OBS: O que não quiser mudar, digite como estava.'),
-    write('Digite as alterações:'),
-    write('Novo nome: '),
+    writeln('O que você deseja alterar?'),
+    writeln('OBS: O que não quiser mudar, digite como estava.'),
+    writeln('Digite as alterações:'),
+    writeln('Novo nome: '),
     ler_string(Nome),
-    write('Nova dificuldade: '),
+    writeln('Nova dificuldade: '),
     ler_string(NovaDif),
-    write('Nova urgência: '),
+    writeln('Nova urgência: '),
     ler_string(NovaUrg),
-    write('Nova data de entrega: '),
+    writeln('Nova data de entrega: '),
     ler_string(NovaEntrega),
+    gerar_matriz_atividades('dados/atividades.txt', MatrizAtividades),
+    editarAtividade(IdAtividade, Nome, NovaDif, NovaUrg, NovaEntrega),
     main.
   % EditarAtividades.editarAtividade (read idAtividade) (Just novoNome) (Just novoDif) (Just novoUrg) (Just novoEntrega)
   % funcao de outro arquivo
 
+
+/*
 editar_status :-
     write('Digite o id da atividade que deseja alterar: '),
     ler_string(IdAtividade),
