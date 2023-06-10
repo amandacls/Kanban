@@ -86,10 +86,12 @@ atividade :-
   % matriz Eisenhower
   
 
-
 editar_atividade :-
     writeln('Qual é o identificador da atividade que você deseja editar?'),
     ler_string(IdAtividade),
+    ler_arquivo('atividades.csv', R),
+    verifica_id(IdAtividade, R, R2),
+    (\+ R2 ->  writeln('Id não encontrado!'), editar_atividade ;
     writeln('O que você deseja alterar?'),
     writeln('OBS: O que não quiser mudar, digite como estava.'),
     writeln('Digite as alterações:'),
@@ -101,9 +103,9 @@ editar_atividade :-
     ler_string(NovaUrg),
     writeln('Nova data de entrega: '),
     ler_string(NovaEntrega),
-    gerar_matriz_atividades('dados/atividades.txt', MatrizAtividades),
-    editarAtividade(IdAtividade, Nome, NovaDif, NovaUrg, NovaEntrega),
-    main.
+    edit_atividade('./dados/atividades.csv')),
+    
+    .
   % EditarAtividades.editarAtividade (read idAtividade) (Just novoNome) (Just novoDif) (Just novoUrg) (Just novoEntrega)
   % funcao de outro arquivo
 

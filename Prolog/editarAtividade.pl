@@ -1,5 +1,35 @@
-:- dynamic atividade/6.  % Definição dinâmica do predicado atividade/6
+edit_atividade([]).
+edit_atividade([H|T]):-
+    nth0(0, H, IdAtividade),
+    nth0(1, H, Nome),
+    nth0(4, H, Urgencia),
+    nth0(5, H, Dificuldade),
+    nth0(6, H, Data),
+    cadastrar_atividade(_, Nome, _, _, Urgencia, Dificuldade, Data).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*:- dynamic atividade/6.  % Definição dinâmica do predicado atividade/6
 :- use_module(library(pcre)).
+:- use_module(library(regex)).
 
 editarAtividade(IdAtividade, NovoNome, NovaDificuldade, NovaUrgencia, NovaEntrega) :-
     retract(atividade(IdAtividade, NomeAtividade, Dificuldade, Urgencia, Entrega, Status)),
@@ -34,3 +64,4 @@ read_lines(Stream, [Line|Lines]) :-
         read_lines(Stream, Lines)
     ;
         Lines = []).
+*/

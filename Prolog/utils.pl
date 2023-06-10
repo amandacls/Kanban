@@ -1,3 +1,28 @@
+ler_arquivo(Arquivo, Lists):-
+    atom_concat('./dados/', Arquivo, Path),
+    csv_read_file(Path, Linhas, []),
+    linhas_em_listas(Linhas, Listas).
+
+linhas_em_listas(Linhas, Listas):-
+    maplist(linha_em_lista, Linhas, Listas).
+
+linha_em_lista(Linha, Lista):-
+    Linha =.. [linha|Lista].
+
+verifica_id(_, [], false).
+verifica_id(Busca, [H|T], R):-
+    (member(Busca, H) -> R = true;
+    verifica_id(Busca, T, R)).
+
+altera(_, [], false).
+altera(Id, [H|T], R):-
+    (verifica_id(Id, H);
+    altera(Id, T, R)).
+
+remove(X, [X|T], T).
+remove(X, [H|T], [H|T1]):-
+    remove(X, T, T1).
+
 ler_string(X) :-
     read_line_to_codes(user_input, R),
     atom_string(R, X).
