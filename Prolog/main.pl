@@ -52,7 +52,8 @@ atividade :-
     writeln('Status possiveis: 1 - A fazer | 2 - Em andamento | 3 - Concluído'),
     write('Adicione um desses status a sua atividade: '),
     ler_numero(Status),
-    (\+ verifica_status(Status) -> writeln('Entrada inválida, por favor escolha uma das opções solicitadas.')
+    (\+ verifica_status(Status) -> writeln('Entrada inválida, por favor escolha uma das opções solicitadas.'),
+    atividade
     ; write('Grau de urgência: '), 
       write('Você precisa de ajuda com o grau de urgência? (1 para sim, 2 para não) '), 
       ler_numero(Urgencia),
@@ -60,27 +61,30 @@ atividade :-
         exibe_matriz,
         ler_numero(Entrada),
         (verifica_opcao(Entrada) -> writeln('Dificuldade: '),
-        writeln('Fácil | Médio | Difícil'),
+        writeln('1 - Fácil | 2 - Médio | 3 - Difícil'),
         write('Adicione um desses níveis de dificuldade a sua atividade: '),
         ler_string(Dificuldade),
-
         % Verificar dificuldade
 
         write('Data de entrega: '),
         ler_string(Data),
         cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Entrada, Dificuldade, Data),
-        writeln('Atividade cadastrada com sucesso! \n');
-        writeln('Entrada inválida, por favor escolha uma das opções solicitadas.'));
+        writeln('Atividade cadastrada com sucesso! \n'),
+        main;
+        writeln('Entrada inválida, por favor escolha uma das opções solicitadas.'),
+        atividade);
         (Urgencia = 2 -> 
         writeln('Dificuldade: '),
-        writeln('Fácil | Médio | Difícil'),
+        writeln('1 - Fácil | 2 - Médio | 3 - Difícil'),
         write('Adicione um desses níveis de dificuldade a sua atividade: '),
         ler_string(Dificuldade),
         write('Data de entrega: '),
         ler_string(Data),
         cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Urgencia, Dificuldade, Data),
-        writeln('Atividade cadastrada com sucesso! \n'));
-        (Urgencia -> writeln('Opção inválida, por favor, escolha S ou N. \n')))).
+        writeln('Atividade cadastrada com sucesso! \n'),
+        main);
+        (Urgencia = _ -> writeln('Opção inválida, por favor, escolha S ou N. \n')),
+        atividade)).
 
   % implementar o resto das funcoes
   % matriz Eisenhower
@@ -91,21 +95,23 @@ editar_atividade :-
     ler_string(IdAtividade),
     ler_arquivo('atividades.csv', R),
     verifica_id(IdAtividade, R, R2),
-    (\+ R2 ->  writeln('Id não encontrado!'), editar_atividade ;
+    (R2 ->
     writeln('O que você deseja alterar?'),
     writeln('OBS: O que não quiser mudar, digite como estava.'),
     writeln('Digite as alterações:'),
     writeln('Novo nome: '),
-    ler_string(Nome),
+    ler_string(NovoNome),
     writeln('Nova dificuldade: '),
-    ler_string(NovaDif),
+    ler_string(NovaDificuldade),
     writeln('Nova urgência: '),
-    ler_string(NovaUrg),
+    ler_string(NovaUrgencia),
     writeln('Nova data de entrega: '),
     ler_string(NovaEntrega),
-    edit_atividade('./dados/atividades.csv')),
-    
-    .
+    alterar_lista(IdAtividade, R, [IdAtividade, NovoNome,_,_, NovaDificuldade, NovaUrgencia, NovaEntrega], RAtualizado),
+    substituir_arquivo('atividades.csv', RAtualizado),
+    writeln('Atividade atualizada com sucesso!');
+    writeln('Id não encontrado!'), editar_atividade).
+
   % EditarAtividades.editarAtividade (read idAtividade) (Just novoNome) (Just novoDif) (Just novoUrg) (Just novoEntrega)
   % funcao de outro arquivo
 

@@ -2,10 +2,13 @@ edit_atividade([]).
 edit_atividade([H|T]):-
     nth0(0, H, IdAtividade),
     nth0(1, H, Nome),
+    nth0(2, H, IdUsuario),
+    nth0(3, H, Status),
     nth0(4, H, Urgencia),
     nth0(5, H, Dificuldade),
     nth0(6, H, Data),
-    cadastrar_atividade(_, Nome, _, _, Urgencia, Dificuldade, Data).
+    cadastrar_atividade(IdAtividade, Nome, IdUsuario, Status, Urgencia, Dificuldade, Data),
+    edit_atividade(T).
 
 
 
