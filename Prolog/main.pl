@@ -18,11 +18,11 @@ main :-
     ler_numero(Opcao),
     escolherOpcao(Opcao).
 
-escolherOpcao(1) :- usuario.
-escolherOpcao(2) :- atividade.
-escolherOpcao(3) :- exibir_quadro.
-escolherOpcao(4) :- editar_atividade.
-escolherOpcao(5) :- editar_status.
+escolherOpcao(1) :- usuario, !.
+escolherOpcao(2) :- atividade, !.
+escolherOpcao(3) :- exibir_quadro, !.
+escolherOpcao(4) :- editar_atividade, !.
+escolherOpcao(5) :- editar_status, !.
 escolherOpcao(6) :- halt.
 escolherOpcao(_) :- writeln('Opção inválida!'), main.
 
@@ -49,33 +49,17 @@ atividade :-
     write('Usuario: '),
     ler_string(IdUsuario),
     writeln('Status:'),
-    writeln('Status possiveis: A fazer | Em andamento | Concluído'),
+    writeln('Status possiveis: 1 - A fazer | 2 - Em andamento | 3 - Concluído'),
     write('Adicione um desses status a sua atividade: '),
     ler_numero(Status),
     (\+ verifica_status(Status) -> writeln('Entrada inválida, por favor escolha uma das opções solicitadas.')
     ; write('Grau de urgência: '), 
-      write('Você precisa de ajuda com o grau de urgência? S/N '), 
-      ler_string(Urgencia),
-      (Urgencia = 'S' -> 
-        writeln('Matriz de Eisenhower:'),
-        writeln('+----------------+----------------+'),
-        writeln('| Urgente e      | Importante e   |'),
-        writeln('| importante     | não urgente    |'),
-        writeln('+----------------+----------------+'),
-        writeln('| Não urgente e  | Não importante |'),
-        writeln('| importante     | e urgente      |'),
-        writeln('+----------------+----------------+'),
-        writeLn('Escolha o grau de urgência:'),
-        writeLn('1 - Urgente e importante'),
-        writeLn('2 - Importante e não urgente'),
-        writeLn('3 - Não importante e urgente'),
-        writeLn('4 - Não urgente e não importante'),
-        writeLn('Opção: '),
-        ler_string(Opcao)),
-
-        % Verificar opcao
-
-        writeln('Dificuldade: '),
+      write('Você precisa de ajuda com o grau de urgência? (1 para sim, 2 para não) '), 
+      ler_numero(Urgencia),
+      (Urgencia = 1 -> 
+        exibe_matriz,
+        ler_numero(Entrada),
+        (verifica_opcao(Entrada) -> writeln('Dificuldade: '),
         writeln('Fácil | Médio | Difícil'),
         write('Adicione um desses níveis de dificuldade a sua atividade: '),
         ler_string(Dificuldade),
@@ -84,9 +68,10 @@ atividade :-
 
         write('Data de entrega: '),
         ler_string(Data),
-        cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Urgencia, Dificuldade, Data),
+        cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Entrada, Dificuldade, Data),
         writeln('Atividade cadastrada com sucesso! \n');
-      (Urgencia = 'N'-> 
+        writeln('Entrada inválida, por favor escolha uma das opções solicitadas.'));
+        (Urgencia = 2 -> 
         writeln('Dificuldade: '),
         writeln('Fácil | Médio | Difícil'),
         write('Adicione um desses níveis de dificuldade a sua atividade: '),
@@ -95,8 +80,7 @@ atividade :-
         ler_string(Data),
         cadastrar_atividade(IdAtv, Tarefa, IdUsuario, Status, Urgencia, Dificuldade, Data),
         writeln('Atividade cadastrada com sucesso! \n'));
-      (Urgencia = _ -> writeln('Opção inválida, por favor, escolha S ou N. \n'))),
-    main.
+        (Urgencia -> writeln('Opção inválida, por favor, escolha S ou N. \n')))).
 
   % implementar o resto das funcoes
   % matriz Eisenhower
@@ -129,6 +113,4 @@ editar_status :-
     main.
   % EditarAtividades.editarStatus (read idAtividade) (Just novoStatus)
   % funcao de outro arquivo 
-
-exibir_quadro:-
 */
