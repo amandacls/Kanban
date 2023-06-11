@@ -1,6 +1,3 @@
-:-use_module(library(csv)).
-:- include('utils.pl').
-
 atividade :-
     write('Insira o ID da atividade: '),
     ler_string(IdAtv),
@@ -26,7 +23,7 @@ add_urgencia(IdAtv, Tarefa, IdUsuario, Status) :-
     write('Você precisa de ajuda com o grau de urgência? (S para sim, N para não) '),
     ler_string(UrgenciaStr),
     (UrgenciaStr = "S" ->
-        exibe_matriz,
+        exibe_matriz(IdAtv, Tarefa, IdUsuario, Status),
         repeat,
         ler_numero(Entrada),
         (verifica_opcao(Entrada) ->
@@ -42,6 +39,29 @@ add_urgencia(IdAtv, Tarefa, IdUsuario, Status) :-
 add_urgencia(IdAtv, Tarefa, IdUsuario, Status) :-
     writeln('Opção inválida, por favor escolha S ou N.'),
     add_urgencia(IdAtv, Tarefa, IdUsuario, Status).
+
+exibe_matriz(IdAtv, Tarefa, IdUsuario, Status) :-
+    writeln('Matriz de Eisenhower:'),
+    writeln('+----------------+----------------+'),
+    writeln('| Urgente e      | Importante e   |'),
+    writeln('| importante     | não urgente    |'),
+    writeln('+----------------+----------------+'),
+    writeln('| Não urgente e  | Não importante |'),
+    writeln('| importante     | e urgente      |'),
+    writeln('+----------------+----------------+'),
+    writeln('Escolha o grau de urgência:'),
+    writeln('1 - Urgente e importante'),
+    writeln('2 - Importante e não urgente'),
+    writeln('3 - Não importante e urgente'),
+    writeln('4 - Não urgente e não importante'),
+    writeln('Opção: '),
+    ler_numero(Opcao),
+    (verifica_opcao(Opcao) ->
+        add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Opcao)
+    ;
+        writeln('Entrada inválida, por favor, digite uma opção válida.'),
+        exibe_matriz(IdAtv, Tarefa, IdUsuario, Status)
+    ).
 
 add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Entrada) :-
     writeln('Dificuldade: Fácil | Médio | Difícil'),
