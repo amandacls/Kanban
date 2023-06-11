@@ -1,3 +1,5 @@
+:-use_module(library(csv)).
+
 usuario :-
     write('Nome: '),
     ler_string(Nome),

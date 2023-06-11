@@ -1,3 +1,5 @@
+:- include('utils.pl').
+
 editar_atividade :-
     writeln('Qual é o identificador da atividade que você deseja editar?'),
     ler_string(IdAtividade),
@@ -15,9 +17,12 @@ editar_atividade :-
     ler_string(NovaUrgencia),
     writeln('Nova data de entrega: '),
     ler_string(NovaEntrega),
-    alterar_lista(IdAtividade, R, [IdAtividade, NovoNome,_,_, NovaDificuldade, NovaUrgencia, NovaEntrega], RAtualizado),
-    substituir_arquivo('atividades.csv', RAtualizado),
-    writeln('Atividade atualizada com sucesso!');
+    seleciona(IdAtividade, R, X),
+    remove(X, R, Nova),
+    limpa_csv('atividades.csv'),
+    edit_atividade(Nova),
+    cadastrar_atividade(IdAtividade, NovoNome, _, _, NovaUrgencia, NovaDificuldade, NovaEntrega),
+    writeln('Atividade atualizada com sucesso!'), main;
     writeln('Id não encontrado!'), editar_atividade).
 
 

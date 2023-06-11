@@ -1,22 +1,51 @@
-exibir_quadro:-
+/*exibir_quadro:-
   writeln('+-------------------------------------------------------------------+'),
   writeln('|                        Quadro de Atividades                       |'),
   writeln('+-------------------------------------------------------------------+'),
   writeln('| A fazer: '),
-    /* withFile "dados/atividades.txt" ReadMode (\handle -> do
-    contents <- hGetContents handle
-    let linhas = lines contents
-        atividadesAFazer = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "A fazer") linhas
-    mapM_ putStrLn atividadesAFazer) */
   writeln('| Em andamento: '),
-  /* withFile "dados/atividades.txt" ReadMode (\handle -> do
-    contents <- hGetContents handle
-    let linhas = lines contents
-        atividadesEmAndamento = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "Em andamento") linhas
-    mapM_ putStrLn atividadesEmAndamento) */
-  writeln('| Concluídas: ').
-  /* withFile "dados/atividades.txt" ReadMode (\handle -> do
-    contents <- hGetContents handle
-    let linhas = lines contents
-        atividadesConcluidas = filter (\linha -> (Atividade.status (read linha :: Atividade.Atividade)) == "Concluído") linhas
-    mapM_ putStrLn atividadesConcluidas) */
+  writeln('| Concluídas: '),
+  main.*/
+
+exibir_quadro :-
+    writeln('+-------------------------------------------------------------------+'),
+    writeln('|                        Quadro de Atividades                       |'),
+    writeln('+-------------------------------------------------------------------+'),
+    writeln('| A fazer: '),
+    exibir_atividades_por_status('A fazer'),
+    writeln('| Em andamento: '),
+    exibir_atividades_por_status('Em andamento'),
+    writeln('| Concluídas: '),
+    exibir_atividades_por_status('Concluídas'),
+    main.
+
+exibir_atividades_por_status(Status) :-
+    ler_arquivo('atividades.csv', Atividades),
+    exibir_atividades_filtradas(Atividades, Status).
+
+exibir_atividades_filtradas([], _).
+exibir_atividades_filtradas([Atividade|Resto], Status) :-
+    term_string(Atividade, AtividadeString),
+    split_string(AtividadeString, ",", "", [Id, Nome, Usuario, StatusAtividade, Urgencia, Dificuldade, Entrega]),
+    trim_string(Id, IdTrimmed),
+    trim_string(Nome, NomeTrimmed),
+    trim_string(Usuario, UsuarioTrimmed),
+    trim_string(StatusAtividade, StatusTrimmed),
+    trim_string(Urgencia, UrgenciaTrimmed),
+    trim_string(Dificuldade, DificuldadeTrimmed),
+    trim_string(Entrega, EntregaTrimmed),
+    (StatusTrimmed = Status ->
+        writeln('| ID: ', IdTrimmed),
+        writeln('| Nome: ', NomeTrimmed),
+        writeln('| Usuário: ', UsuarioTrimmed),
+        writeln('| Status: ', StatusTrimmed),
+        writeln('| Urgência: ', UrgenciaTrimmed),
+        writeln('| Dificuldade: ', DificuldadeTrimmed),
+        writeln('| Entrega: ', EntregaTrimmed),
+        writeln('|-----------------------------'),
+        fail
+    ;
+        true
+    ),
+
+    exibir_atividades_filtradas(Resto, Status).

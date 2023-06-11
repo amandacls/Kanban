@@ -1,3 +1,4 @@
+:- (initialization main).
 :- include('atividade.pl').
 :- include('editarAtividade.pl').
 :- include('exibirQuadro.pl').

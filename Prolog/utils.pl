@@ -1,10 +1,5 @@
-escolherOpcao(1) :- usuario, !.
-escolherOpcao(2) :- atividade, !.
-escolherOpcao(3) :- exibir_quadro, !.
-escolherOpcao(4) :- editar_atividade, !.
-escolherOpcao(5) :- editar_status, !.
-escolherOpcao(6) :- halt.
-escolherOpcao(_) :- writeln('Opção inválida!'), main.
+:-style_check(-discontiguous).
+:-style_check(-singleton).
 
 ler_arquivo(Arquivo, Lists):-
     atom_concat('./dados/', Arquivo, Path),
@@ -17,19 +12,22 @@ linhas_em_listas(Linhas, Listas):-
 linha_em_lista(Linha, Lista):-
     Linha =.. [linha|Lista].
 
+limpa_csv(Arquivo):-
+    atom_concat('./dados/', Arquivo, Path),
+    open(Path, write, Fluxo),
+    write(Fluxo, ''),
+    close(Fluxo).
+
 verifica_id(_, [], false).
 verifica_id(Busca, [H|T], R):-
     (member(Busca, H) -> R = true;
     verifica_id(Busca, T, R)).
 
-altera(_, [], false).
-altera(Id, [H|T], R):-
-    (verifica_id(Id, H);
-    altera(Id, T, R)).
+seleciona(_, [], []).
+seleciona(Id, [H|T], R):- (member(Id, H) -> R = H; seleciona(Id, T, R)).
 
 remove(X, [X|T], T).
-remove(X, [H|T], [H|T1]):-
-    remove(X, T, T1).
+remove(X, [H|T], [H|T1]):- remove(X, T, T1).
 
 ler_string(X) :-
     read_line_to_codes(user_input, R),
@@ -63,4 +61,12 @@ verifica_dificuldade(Dificuldade) :-
         DificuldadeAtom = 'Dificil'
     ).
 
+escolherOpcao(1) :- usuario.
+escolherOpcao(2) :- atividade.
+escolherOpcao(3) :- exibir_quadro.
+escolherOpcao(4) :- editar_atividade.
+escolherOpcao(5) :- editar_status.
+escolherOpcao(6) :- halt.
+escolherOpcao(_) :- writeln('Opção inválida!'), main.
+    
     %ler_numero(Status).

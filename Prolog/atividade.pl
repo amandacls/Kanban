@@ -1,3 +1,6 @@
+:-use_module(library(csv)).
+:- include('utils.pl').
+
 atividade :-
     write('Insira o ID da atividade: '),
     ler_string(IdAtv),
