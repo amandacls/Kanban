@@ -1,3 +1,38 @@
+editar_atividade :-
+    writeln('Qual é o identificador da atividade que você deseja editar?'),
+    ler_string(IdAtividade),
+    ler_arquivo('atividades.csv', R),
+    verifica_id(IdAtividade, R, R2),
+    (R2 ->
+    writeln('O que você deseja alterar?'),
+    writeln('OBS: O que não quiser mudar, digite como estava.'),
+    writeln('Digite as alterações:'),
+    writeln('Novo nome: '),
+    ler_string(NovoNome),
+    writeln('Nova dificuldade: '),
+    ler_string(NovaDificuldade),
+    writeln('Nova urgência: '),
+    ler_string(NovaUrgencia),
+    writeln('Nova data de entrega: '),
+    ler_string(NovaEntrega),
+    alterar_lista(IdAtividade, R, [IdAtividade, NovoNome,_,_, NovaDificuldade, NovaUrgencia, NovaEntrega], RAtualizado),
+    substituir_arquivo('atividades.csv', RAtualizado),
+    writeln('Atividade atualizada com sucesso!');
+    writeln('Id não encontrado!'), editar_atividade).
+
+
+/*
+editar_status :-
+    write('Digite o id da atividade que deseja alterar: '),
+    ler_string(IdAtividade),
+    write('Digite o novo status da atividade: '),
+    ler_string(NovoStatus),
+    main.
+  % EditarAtividades.editarStatus (read idAtividade) (Just novoStatus)
+  % funcao de outro arquivo 
+*/
+
+
 edit_atividade([]).
 edit_atividade([H|T]):-
     nth0(0, H, IdAtividade),
@@ -9,62 +44,3 @@ edit_atividade([H|T]):-
     nth0(6, H, Data),
     cadastrar_atividade(IdAtividade, Nome, IdUsuario, Status, Urgencia, Dificuldade, Data),
     edit_atividade(T).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*:- dynamic atividade/6.  % Definição dinâmica do predicado atividade/6
-:- use_module(library(pcre)).
-:- use_module(library(regex)).
-
-editarAtividade(IdAtividade, NovoNome, NovaDificuldade, NovaUrgencia, NovaEntrega) :-
-    retract(atividade(IdAtividade, NomeAtividade, Dificuldade, Urgencia, Entrega, Status)),
-    NovoNomeFinal = (NovoNome ; NomeAtividade),
-    NovaDificuldadeFinal = (NovaDificuldade ; Dificuldade),
-    NovaUrgenciaFinal = (NovaUrgencia ; Urgencia),
-    NovaEntregaFinal = (NovaEntrega ; Entrega),
-    assertz(atividade(IdAtividade, NovoNomeFinal, NovaDificuldadeFinal, NovaUrgenciaFinal, NovaEntregaFinal, Status)).
-
-editarStatus(IdAtividade, NovoStatus) :-
-    retract(atividade(IdAtividade, NomeAtividade, Dificuldade, Urgencia, Entrega, Status)),
-    NovoStatusFinal = (NovoStatus ; Status),
-    assertz(atividade(IdAtividade, NomeAtividade, Dificuldade, Urgencia, Entrega, NovoStatusFinal)).
-
-gerar_matriz_atividades(NomeArquivo, MatrizAtividades) :-
-    read_file_lines(NomeArquivo, Linhas),
-    maplist(processar_linha, Linhas, MatrizAtividades).
-
-processar_linha(Linha, Atividade) :-
-    regex("^ID: (\\d+), NOME: (.+), USUÁRIO: (\\d+), STATUS: (\\d+), URGÊNCIA: (\\d+), DIFICULDADE: ([^,]+), ENTREGA: ([^,]+)$", [], Linha, Capturas),
-    [_, Id, Nome, Usuario, Status, Urgencia, Dificuldade, Entrega] = Capturas,
-    Atividade = [Id, Nome, Usuario, Status, Urgencia, Dificuldade, Entrega].
-
-read_file_lines(File, Lines) :-
-    setup_call_cleanup(open(File, read, In),
-                       read_lines(In, Lines),
-                       close(In)).
-
-read_lines(Stream, [Line|Lines]) :-
-    read_line_to_string(Stream, Line),
-    (Line \== end_of_file ->
-        read_lines(Stream, Lines)
-    ;
-        Lines = []).
-*/
