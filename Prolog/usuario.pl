@@ -4,7 +4,7 @@ usuario :-
     write('Função: '),
     ler_string(Funcao),
     write('Digite um id de até 6 números: '),
-    ler_string(IdUser),
+    ler_numero(IdUser),
     cadastrar_usuario(IdUser, Nome, Funcao), 
     write('Usuário cadastrado com sucesso!'),
     write('\n'),
@@ -12,7 +12,7 @@ usuario :-
 
 cadastrar_usuario(Id, Nome, Funcao) :-
     format(atom(Line), 'ID: ~w, NOME: ~w, FUNÇÃO: ~w\n', [Id, Nome, Funcao]),
-    open('dados/usuarios.txt', append, Stream),
+    open('./dados/usuarios.csv', append, Stream),
     write(Stream, Line),
     close(Stream).
 

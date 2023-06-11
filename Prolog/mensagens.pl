@@ -1,3 +1,5 @@
+:- include('utils.pl').
+
 exibe_matriz :-
     writeln('Matriz de Eisenhower:'),
     writeln('+----------------+----------------+'),
@@ -12,7 +14,11 @@ exibe_matriz :-
     writeln('2 - Importante e não urgente'),
     writeln('3 - Não importante e urgente'),
     writeln('4 - Não urgente e não importante'),
-    writeln('Opção: ').
+    writeln('Opção: '),
+    ler_numero(Opcao),
+    verifica_opcao(Opcao),
+    add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Opcao).
+% Falta funcionar na escrita do arquivo .csv
 
 exibir_status :-
     writeln('Status:'),

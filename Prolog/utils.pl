@@ -55,5 +55,12 @@ verifica_status(Status) :-
     ).
 
 
+verifica_dificuldade(Dificuldade) :-
+    atom_string(DificuldadeAtom, Dificuldade),
+    (
+        DificuldadeAtom = 'Facil' ;
+        DificuldadeAtom = 'Medio' ;
+        DificuldadeAtom = 'Dificil'
+    ).
 
     %ler_numero(Status).
