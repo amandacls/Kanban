@@ -2,7 +2,6 @@
 :- include('atividade.pl').
 :- include('editarAtividade.pl').
 :- include('exibirQuadro.pl').
-:- include('mensagens.pl').
 :- include('usuario.pl').
 :- include('utils.pl').
 
@@ -12,6 +11,10 @@ main :-
     writeln('Boas vindas ao Kanban, um espaço para te auxiliar em suas atividades'),
     write('\n'),
     writeln('Escolha uma opção:'),
+    write('\n'),
+    writeln('!!!!!!!!!!!!! OBSERVAÇÃO !!!!!!!!!!!!!'),
+    writeln('Não utilize acentos em suas respostas.'),
+    write('\n'),
     writeln('1. Cadastrar usuário'),
     writeln('2. Cadastrar atividade'),
     writeln('3. Exibir quadro'),

@@ -1,51 +1,44 @@
-/*exibir_quadro:-
-  writeln('+-------------------------------------------------------------------+'),
-  writeln('|                        Quadro de Atividades                       |'),
-  writeln('+-------------------------------------------------------------------+'),
-  writeln('| A fazer: '),
-  writeln('| Em andamento: '),
-  writeln('| Concluídas: '),
-  main.*/
+:- include('utils.pl').
 
 exibir_quadro :-
     writeln('+-------------------------------------------------------------------+'),
     writeln('|                        Quadro de Atividades                       |'),
     writeln('+-------------------------------------------------------------------+'),
-    writeln('| A fazer: '),
-    exibir_atividades_por_status('A fazer'),
-    writeln('| Em andamento: '),
-    exibir_atividades_por_status('Em andamento'),
-    writeln('| Concluídas: '),
-    exibir_atividades_por_status('Concluídas'),
+    exibir_dados_csv('./dados/atividades.csv'),
     main.
 
-exibir_atividades_por_status(Status) :-
-    ler_arquivo('atividades.csv', Atividades),
-    exibir_atividades_filtradas(Atividades, Status).
+exibir_dados_csv(NomeArquivo) :-
+    open(NomeArquivo, read, Stream),
+    ler_linhas(Stream, Linhas),
+    close(Stream),
+    exibir_linhas(Linhas).
 
-exibir_atividades_filtradas([], _).
-exibir_atividades_filtradas([Atividade|Resto], Status) :-
-    term_string(Atividade, AtividadeString),
-    split_string(AtividadeString, ",", "", [Id, Nome, Usuario, StatusAtividade, Urgencia, Dificuldade, Entrega]),
-    trim_string(Id, IdTrimmed),
-    trim_string(Nome, NomeTrimmed),
-    trim_string(Usuario, UsuarioTrimmed),
-    trim_string(StatusAtividade, StatusTrimmed),
-    trim_string(Urgencia, UrgenciaTrimmed),
-    trim_string(Dificuldade, DificuldadeTrimmed),
-    trim_string(Entrega, EntregaTrimmed),
-    (StatusTrimmed = Status ->
-        writeln('| ID: ', IdTrimmed),
-        writeln('| Nome: ', NomeTrimmed),
-        writeln('| Usuário: ', UsuarioTrimmed),
-        writeln('| Status: ', StatusTrimmed),
-        writeln('| Urgência: ', UrgenciaTrimmed),
-        writeln('| Dificuldade: ', DificuldadeTrimmed),
-        writeln('| Entrega: ', EntregaTrimmed),
-        writeln('|-----------------------------'),
-        fail
+ler_linhas(Stream, Linhas) :-
+    read_line_to_codes(Stream, Line),
+    (Line \= end_of_file ->
+        atom_codes(AtomLine, Line),
+        split_string(AtomLine, ",", "", Linha),
+        Linhas = [Linha | Resto],
+        ler_linhas(Stream, Resto)
     ;
-        true
-    ),
+        Linhas = []
+    ).
 
-    exibir_atividades_filtradas(Resto, Status).
+exibir_linhas([]).
+exibir_linhas([Linha | Resto]) :-
+    exibir_elemento(Linha),
+    writeln('+-------------------------------------------------------------------+'),
+    exibir_linhas(Resto).
+
+exibir_elemento([Id, Nome, Usuario, Status, Urgencia, Dificuldade, Entrega]) :-
+    format('| ID ATIVIDADE:  ~w~n', [Id]),
+    format('| NOME:  ~w~n', [Nome]),
+    format('| ID USUÁRIO:  ~w~n', [Usuario]),
+    format('| STATUS:  ~w~n', [Status]),
+    format('| URGÊNCIA:  ~w~n', [Urgencia]),
+    format('| DIFICULDADE:  ~w~n', [Dificuldade]),
+    format('| ENTREGA:  ~w~n', [Entrega]).
+
+trim_string(String, Trimmed) :-
+    atom_string(Atom, String),
+    atom_string(Trimmed, Atom).

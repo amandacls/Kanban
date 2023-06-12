@@ -1,51 +1,45 @@
+:- use_module(library(csv)).
 :- include('utils.pl').
 
 editar_atividade :-
     writeln('Qual é o identificador da atividade que você deseja editar?'),
-    ler_string(IdAtividade),
+    ler_numero(IdAtividade),
     ler_arquivo('atividades.csv', R),
     verifica_id(IdAtividade, R, R2),
-    (R2 ->
-    writeln('O que você deseja alterar?'),
-    writeln('OBS: O que não quiser mudar, digite como estava.'),
-    writeln('Digite as alterações:'),
-    writeln('Novo nome: '),
-    ler_string(NovoNome),
-    writeln('Nova dificuldade: '),
-    ler_string(NovaDificuldade),
-    writeln('Nova urgência: '),
-    ler_string(NovaUrgencia),
-    writeln('Nova data de entrega: '),
-    ler_string(NovaEntrega),
-    seleciona(IdAtividade, R, X),
-    remove(X, R, Nova),
-    limpa_csv('atividades.csv'),
-    edit_atividade(Nova),
-    cadastrar_atividade(IdAtividade, NovoNome, _, _, NovaUrgencia, NovaDificuldade, NovaEntrega),
-    writeln('Atividade atualizada com sucesso!'), main;
-    writeln('Id não encontrado!'), editar_atividade).
+    (R2 = true ->
+      writeln('O que você deseja alterar?'),
+      writeln('OBS: O que não quiser mudar, digite como estava.'),
+      writeln('Digite as alterações:'),
+      write('Novo nome: '),
+      ler_string(NovoNome),
+      writeln('Entradas possíveis: Fácil | Médio | Difícil'),
+      write('Nova dificuldade: '),
+      ler_string(NovaDificuldade),
+      (\+ verifica_dificuldade(NovaDificuldade) -> writeln('Entrada inválida, por favor escolha uma opção de dificuldade válida. \n'), editar_atividade;
+      writeln('Entradas possíveis: '),
+      writeln('1. Urgente e importante'),
+      writeln('2. Importante e não urgente'),
+      writeln('3. Não importante e urgente'),
+      writeln('4. Não urgente e não importante'),
+      write('Nova urgência: '),
+      ler_numero(NovaUrgencia),
+      (\+ verifica_opcao(NovaUrgencia) -> writeln('Entrada inválida, por favor, digite uma opção. \n'), editar_atividade;
+      write('Nova data de entrega: '),
+      ler_string(NovaEntrega),
+      edita_lista(IdAtividade, NovoNome, NovaDificuldade, NovaUrgencia, NovaEntrega),
+      writeln('Atividade atualizada com sucesso!'), main));
+    writeln('Id não encontrado! \n'), editar_atividade).
 
-
-/*
 editar_status :-
     write('Digite o id da atividade que deseja alterar: '),
-    ler_string(IdAtividade),
-    write('Digite o novo status da atividade: '),
-    ler_string(NovoStatus),
-    main.
-  % EditarAtividades.editarStatus (read idAtividade) (Just novoStatus)
-  % funcao de outro arquivo 
-*/
-
-
-edit_atividade([]).
-edit_atividade([H|T]):-
-    nth0(0, H, IdAtividade),
-    nth0(1, H, Nome),
-    nth0(2, H, IdUsuario),
-    nth0(3, H, Status),
-    nth0(4, H, Urgencia),
-    nth0(5, H, Dificuldade),
-    nth0(6, H, Data),
-    cadastrar_atividade(IdAtividade, Nome, IdUsuario, Status, Urgencia, Dificuldade, Data),
-    edit_atividade(T).
+    ler_numero(IdAtividade),
+    ler_arquivo('atividades.csv', R),
+    verifica_id(IdAtividade, R, R2),
+    (R2 = true -> 
+      writeln('Status possíveis: A fazer | Em andamento | Concluída'),
+      write('Digite o novo status da atividade: '),
+      ler_string(NovoStatus),
+      (\+ verifica_status(NovoStatus) -> writeln('Entrada inválida, por favor escolha um status solicitado. \n'), editar_status;
+      edita_status(IdAtividade, NovoStatus), 
+      writeln('Status da atividade atualizado com sucesso!'), main);
+    writeln('Id não encontrado! \n'), editar_status).

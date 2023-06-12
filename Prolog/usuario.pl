@@ -7,15 +7,16 @@ usuario :-
     ler_string(Funcao),
     write('Digite um id de até 6 números: '),
     ler_numero(IdUser),
+    ler_arquivo('usuarios.csv', R),
+    verifica_id(IdUser, R, R2),
+    (R2 = true -> writeln('ID já cadastrado!'), usuario;
     cadastrar_usuario(IdUser, Nome, Funcao), 
     write('Usuário cadastrado com sucesso!'),
     write('\n'),
-    main.
+    main).
 
 cadastrar_usuario(Id, Nome, Funcao) :-
-    format(atom(Line), 'ID: ~w, NOME: ~w, FUNÇÃO: ~w\n', [Id, Nome, Funcao]),
-    open('./dados/usuarios.csv', append, Stream),
-    write(Stream, Line),
-    close(Stream).
-
-% Verificar ID
+    atom_concat('./dados/', 'usuarios.csv', Path),
+    csv_read_file(Path, File),
+    append(File, [row(Id, Nome, Funcao)], NovaLista),
+    csv_write_file(Path, NovaLista).
