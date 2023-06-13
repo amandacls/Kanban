@@ -12,12 +12,6 @@ rows_to_lists(Linhas, Listas):-
 row_to_list(Linha, Lista):-
     Linha =.. [row|Lista].
 
-limpa_csv(Arquivo):-
-    atom_concat('./dados/', Arquivo, Path),
-    open(Path, write, Fluxo),
-    write(Fluxo, ''),
-    close(Fluxo).
-
 verifica_id(_, [], false).
 verifica_id(Busca, [H|_], true) :- H = [Id|_], Busca = Id.
 verifica_id(Busca, [_|T], R) :- verifica_id(Busca, T, R).
@@ -59,20 +53,16 @@ verifica_opcao(_) :- false, !.
 
 verifica_status(Status) :-
     atom_string(StatusAtom, Status),
-    (
-        StatusAtom = 'A fazer' ;
-        StatusAtom = 'Em andamento' ;
-        StatusAtom = 'Concluida'
-    ).
+    (StatusAtom = 'A fazer';
+     StatusAtom = 'Em andamento';
+     StatusAtom = 'Concluida').
 
 
 verifica_dificuldade(Dificuldade) :-
     atom_string(DificuldadeAtom, Dificuldade),
-    (
-        DificuldadeAtom = 'Facil' ;
-        DificuldadeAtom = 'Medio' ;
-        DificuldadeAtom = 'Dificil'
-    ).
+    (DificuldadeAtom = 'Facil';
+     DificuldadeAtom = 'Medio';
+     DificuldadeAtom = 'Dificil').
 
 escolherOpcao(1) :- usuario.
 escolherOpcao(2) :- atividade.

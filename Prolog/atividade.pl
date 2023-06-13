@@ -13,18 +13,15 @@ atividade :-
     (U2 = true -> 
     writeln('Status possíveis: A fazer | Em andamento | Concluída'),
     add_status(IdAtv, Tarefa, IdUsuario);
-    writeln('Usuário inexistente!'), atividade)
-    ).
+    writeln('Usuário inexistente!'), atividade)).
 
 add_status(IdAtv, Tarefa, IdUsuario) :-
     write('Adicione um desses status a sua atividade: '),
     ler_string(Status),
     (verifica_status(Status) ->
-        add_urgencia(IdAtv, Tarefa, IdUsuario, Status)
-    ;
+        add_urgencia(IdAtv, Tarefa, IdUsuario, Status);
         writeln('Entrada inválida, por favor escolha um status solicitado.'),
-        add_status(IdAtv, Tarefa, IdUsuario)
-    ).
+        add_status(IdAtv, Tarefa, IdUsuario)).
 
 add_urgencia(IdAtv, Tarefa, IdUsuario, Status) :-
     write('Grau de urgência: '),
@@ -36,14 +33,10 @@ add_urgencia(IdAtv, Tarefa, IdUsuario, Status) :-
         ler_numero(Entrada),
         (verifica_opcao(Entrada) ->
             writeln('Entrada inválida, por favor, digite uma opção.'),
-            fail
-        ;
-            add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Entrada)
-        )
-    ;
-        (UrgenciaStr = "N" -> add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, 0)
-        ; UrgenciaStr = _ -> writeln('Entrada inválida!'), add_urgencia(IdAtv, Tarefa, IdUsuario, Status))
-    ).
+            fail;
+            add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Entrada));
+        (UrgenciaStr = "N" -> add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, 0); 
+        UrgenciaStr = _ -> writeln('Entrada inválida!'), add_urgencia(IdAtv, Tarefa, IdUsuario, Status))).
 
 add_urgencia(IdAtv, Tarefa, IdUsuario, Status) :-
     writeln('Opção inválida, por favor escolha S ou N.'),
@@ -67,22 +60,18 @@ exibe_matriz(IdAtv, Tarefa, IdUsuario, Status) :-
     writeln('Opção: '),
     ler_numero(Opcao),
     (verifica_opcao(Opcao) ->
-        add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Opcao)
-    ;
+        add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Opcao);
         writeln('Entrada inválida, por favor, digite uma opção válida.'),
-        exibe_matriz(IdAtv, Tarefa, IdUsuario, Status)
-    ).
+        exibe_matriz(IdAtv, Tarefa, IdUsuario, Status)).
 
 add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Entrada) :-
     writeln('Dificuldade: Fácil | Médio | Difícil'),
     writeln('Adicione um desses níveis de dificuldade a sua atividade: '),
     ler_string(DificuldadeStr),
     (verifica_dificuldade(DificuldadeStr) ->
-        add_data(IdAtv, Tarefa, IdUsuario, Status, Entrada, DificuldadeStr)
-    ;
+        add_data(IdAtv, Tarefa, IdUsuario, Status, Entrada, DificuldadeStr);
         writeln('Entrada inválida, por favor escolha uma opção de dificuldade válida.'),
-        add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Entrada)
-    ).
+        add_dificuldade(IdAtv, Tarefa, IdUsuario, Status, Entrada)).
 
 
 add_data(IdAtv, Tarefa, IdUsuario, Status, Entrada, Dificuldade) :-

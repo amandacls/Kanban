@@ -19,10 +19,8 @@ ler_linhas(Stream, Linhas) :-
         atom_codes(AtomLine, Line),
         split_string(AtomLine, ",", "", Linha),
         Linhas = [Linha | Resto],
-        ler_linhas(Stream, Resto)
-    ;
-        Linhas = []
-    ).
+        ler_linhas(Stream, Resto);
+        Linhas = []).
 
 exibir_linhas([]).
 exibir_linhas([Linha | Resto]) :-
@@ -38,7 +36,3 @@ exibir_elemento([Id, Nome, Usuario, Status, Urgencia, Dificuldade, Entrega]) :-
     format('| URGÊNCIA:  ~w~n', [Urgencia]),
     format('| DIFICULDADE:  ~w~n', [Dificuldade]),
     format('| ENTREGA:  ~w~n', [Entrega]).
-
-trim_string(String, Trimmed) :-
-    atom_string(Atom, String),
-    atom_string(Trimmed, Atom).
