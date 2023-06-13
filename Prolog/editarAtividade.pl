@@ -12,10 +12,6 @@ editar_atividade :-
       writeln('Digite as alterações:'),
       write('Novo nome: '),
       ler_string(NovoNome),
-      writeln('Entradas possíveis: Fácil | Médio | Difícil'),
-      write('Nova dificuldade: '),
-      ler_string(NovaDificuldade),
-      (\+ verifica_dificuldade(NovaDificuldade) -> writeln('Entrada inválida, por favor escolha uma opção de dificuldade válida. \n'), editar_atividade;
       writeln('Entradas possíveis: '),
       writeln('1. Urgente e importante'),
       writeln('2. Importante e não urgente'),
@@ -23,10 +19,14 @@ editar_atividade :-
       writeln('4. Não urgente e não importante'),
       write('Nova urgência: '),
       ler_numero(NovaUrgencia),
-      (\+ verifica_opcao(NovaUrgencia) -> writeln('Entrada inválida, por favor, digite uma opção. \n'), editar_atividade;
+      (\+ verifica_opcao(NovaUrgencia) -> writeln('Entrada inválida, por favor escolha uma opção de dificuldade válida. \n'), editar_atividade;
+      writeln('Entradas possíveis: Fácil | Médio | Difícil'),
+      write('Nova dificuldade: '),
+      ler_string(NovaDificuldade),
+      (\+ verifica_dificuldade(NovaDificuldade) -> writeln('Entrada inválida, por favor, digite uma opção. \n'), editar_atividade;
       write('Nova data de entrega: '),
       ler_string(NovaEntrega),
-      edita_lista(IdAtividade, NovoNome, NovaDificuldade, NovaUrgencia, NovaEntrega),
+      edita_lista(IdAtividade, NovoNome, NovaUrgencia, NovaDificuldade, NovaEntrega),
       writeln('Atividade atualizada com sucesso!'), main));
     writeln('Id não encontrado! \n'), editar_atividade).
 
